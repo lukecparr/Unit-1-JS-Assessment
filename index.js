@@ -30,7 +30,7 @@ function getName(character) {
  */
 function getFilmCount(character) {
   // TODO: Add your code inside the functions (others below).
-
+	return character.films.length;
 }
 
 /**
@@ -43,6 +43,11 @@ function getFilmCount(character) {
 */
 function getSecondStarshipName(character) {
   // TODO: Add your code here.
+	if (character.starships.length === 0) {
+		return "none";
+	} else {
+		return character.starships[1].name;
+	}
 }
 
 /**
@@ -56,6 +61,7 @@ function getSecondStarshipName(character) {
  */
 function getSummary(character) {
   // TODO: Add your code here.
+	return `${character.name}, ${character.height}cm, ${character.mass}kg. Featured in ${character.films.length} films.`
 }
 
 /**
@@ -68,7 +74,9 @@ function getSummary(character) {
 */
 function getVehiclesCostInCreditsSumTotal(character) {
   // TODO: Add your code here.
+	return character.vehicles.reduce(((total, vehicle) => total += vehicle.cost_in_credits),0);
 }
+
 
 /**
  * ### Challenge `getStarshipPassengerAndCrewSumTotal`
@@ -82,6 +90,7 @@ function getVehiclesCostInCreditsSumTotal(character) {
 */
 function getStarshipPassengerAndCrewSumTotal(character) {
   // TODO: Add your code here.
+	return character.starships.reduce(((total, starship) => total += (starship.crew + starship.passengers)),0);
 }
 
 /**
@@ -99,6 +108,11 @@ function getStarshipPassengerAndCrewSumTotal(character) {
 */
 function getNthFilm(character, filmNumber) {
   // TODO: Add your code here.
+	if (filmNumber <= 3) {
+		return character.films[filmNumber - 1];
+	} else {
+		return `There are only 3 Star Wars movies. Go watch Star Trek.`;
+	}
 }
 
 /**
@@ -113,6 +127,11 @@ function getNthFilm(character, filmNumber) {
 */
 function getCargoCapacityTotal(character) {
   // TODO: Add your code here.
+	let cap_total = 0;
+	cap_total += character.vehicles.reduce(((total, vehicle) => total += (isNaN(parseInt(vehicle.cargo_capacity)) ? 0 : parseInt(vehicle.cargo_capacity))),0);
+	cap_total += character.starships.reduce(((total, starship) => total += (isNaN(parseInt(starship.cargo_capacity)) ? 0 : parseInt(starship.cargo_capacity))),0);
+	
+	return cap_total;
 }
 
 /**
@@ -128,6 +147,22 @@ function getCargoCapacityTotal(character) {
 */
 function getFastestStarshipName(character) {
   // TODO: Add your code here.
+	let fastest_speed = 0;
+	let fastest_name = "";
+	
+	if (character.starships.length > 0) {
+		character.starships.map(function(ship) {
+			if (parseInt(ship.max_atmosphering_speed) > fastest_speed) {
+				fastest_speed = parseInt(ship.max_atmosphering_speed);
+				fastest_name = ship.name;
+			}
+		});
+	}
+	else {
+		return 'none';
+	}
+	
+	return fastest_name;
 }
 
 /**
@@ -143,6 +178,22 @@ function getFastestStarshipName(character) {
 */
 function getLargestCargoStarshipModelName(character) {
   // TODO: Add your code here.
+	let largest_cargo = 0;
+	let largest_model = "";
+	
+	if (character.starships.length > 0) {
+		character.starships.map(function(ship) {
+			if (parseInt(ship.cargo_capacity) > largest_cargo) {
+				largest_cargo = parseInt(ship.cargo_capacity);
+				largest_model = ship.model;
+			}
+		});
+	}
+	else {
+		return 'none';
+	}
+	
+	return largest_model;
 }
 
 /**
@@ -157,6 +208,29 @@ function getLargestCargoStarshipModelName(character) {
 */
 function getSlowestVehicleOrStarshipName(character) {
   // TODO: Add your code here.
+	let slowest_speed = 1000000000;
+	let slowest_name = "";
+	
+	if (character.starships.length === 0 && character.vehicles.length === 0) {
+		return 'none';
+	}
+	else {
+		character.starships.map(function(ship) {
+			if (parseInt(ship.max_atmosphering_speed) < slowest_speed) {
+				slowest_speed = parseInt(ship.max_atmosphering_speed);
+				slowest_name = ship.name;
+			}
+		});
+		
+		character.vehicles.map(function(ship) {
+			if (parseInt(ship.max_atmosphering_speed) < slowest_speed) {
+				slowest_speed = parseInt(ship.max_atmosphering_speed);
+				slowest_name = ship.name;
+			}
+		});
+	}
+
+	return slowest_name;
 }
 
 
